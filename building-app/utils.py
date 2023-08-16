@@ -74,4 +74,19 @@ def get_products_and_category(user_input, category_and_product_list):
 
 
 # read_string_to_list
+import json 
+
+def read_string_to_list(input_string):
+    if input_string is None:
+        return None
+
+    try:
+        input_string = input_string.replace("'", "\"")  # Replace single quotes with double quotes for valid JSON
+        data = json.loads(input_string)
+        return data
+    except json.JSONDecodeError:
+        print("Error: Invalid JSON string")
+        return None  
+
+
 # generate_output_string
