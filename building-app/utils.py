@@ -90,3 +90,36 @@ def read_string_to_list(input_string):
 
 
 # generate_output_string
+def get_product_by_name(name):
+    return products.get(name, None)
+
+def get_products_by_category(category):
+    return [product for product in products.values() if product["category"] == category]
+    
+def generate_output_string(data_list):
+    output_string = ""
+
+    if data_list is None:
+        return output_string
+
+    for data in data_list:
+        try:
+            if "products" in data:
+                products_list = data["products"]
+                for product_name in products_list:
+                    product = get_product_by_name(product_name)
+                    if product:
+                        output_string += json.dumps(product, indent=4) + "\n"
+                    else:
+                        print(f"Error: Product '{product_name}' not found")
+            elif "category" in data:
+                category_name = data["category"]
+                category_products = get_products_by_category(category_name)
+                for product in category_products:
+                    output_string += json.dumps(product, indent=4) + "\n"
+            else:
+                print("Error: Invalid object format")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    return output_string 
